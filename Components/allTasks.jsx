@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BsPencilSquare } from 'react-icons/bs';
 import { MdDeleteForever } from 'react-icons/md';
 
-function ShowAllTasks() {
+function ShowAllTasks({ name, setname, btnName, setBtnName }) {
   const [tasks, setTasks] = useState([]);
 
   //fetch all tasks from postgresql database
@@ -18,14 +18,15 @@ function ShowAllTasks() {
       .then((result) => console.log(result));
   };
 
-  const editHandler = () => {
-    console.log('edit');
+  const editHandler = (user) => {
+    setname(user.name);
+    setBtnName('Update');
   };
 
   return (
     <div className='showdiv'>
       {tasks
-        ? tasks.map((user) => (
+        ? tasks?.map((user) => (
             <div className='task' key={user.id}>
               <div>
                 <span>{user.id} . </span> {user.name}
@@ -33,7 +34,7 @@ function ShowAllTasks() {
               <div>
                 {' '}
                 <span className='edit'>
-                  <BsPencilSquare onClick={() => editHandler} />
+                  <BsPencilSquare onClick={() => editHandler(user)} />
                 </span>{' '}
                 <span className='del'>
                   <MdDeleteForever onClick={() => deleteHandler(user.id)} />
