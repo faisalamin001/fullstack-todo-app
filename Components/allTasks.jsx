@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BsPencilSquare } from 'react-icons/bs';
 import { MdDeleteForever } from 'react-icons/md';
 
-function ShowAllTasks({ name, setname, btnName, setBtnName }) {
+function ShowAllTasks({ name, setname, btnName, setBtnName, settaskId }) {
   const [tasks, setTasks] = useState([]);
 
   //fetch all tasks from postgresql database
@@ -21,6 +21,7 @@ function ShowAllTasks({ name, setname, btnName, setBtnName }) {
   const editHandler = (user) => {
     setname(user.name);
     setBtnName('Update');
+    settaskId(user.id);
   };
 
   return (

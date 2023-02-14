@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-function CreateTask({ name, setname, btnName, setBtnName }) {
+function CreateTask({ name, setname, btnName, setBtnName, taskId }) {
   const router = useRouter();
 
   const updateUserHandler = (e) => {
     e.preventDefault();
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/updateUser/${id}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/updateUser/${taskId}`, {
       method: 'POST',
       body: JSON.stringify({ name }),
     })
       .then((res) => res.json())
       .then((result) => console.log(result));
-    console.log('update handler', name);
     setname('');
   };
 

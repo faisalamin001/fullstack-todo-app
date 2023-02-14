@@ -4,6 +4,7 @@ import ShowAllTasks from '../Components/allTasks';
 
 export default function Home() {
   const [name, setname] = useState('');
+  const [taskId, settaskId] = useState('');
   const [btnName, setBtnName] = useState('Add');
 
   return (
@@ -13,12 +14,14 @@ export default function Home() {
         btnName={btnName}
         setBtnName={setBtnName}
         setname={setname}
+        taskId={taskId}
       />
       <ShowAllTasks
         name={name}
         setname={setname}
         btnName={btnName}
         setBtnName={setBtnName}
+        settaskId={settaskId}
       />
     </>
   );
