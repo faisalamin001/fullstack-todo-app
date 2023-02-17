@@ -8,13 +8,17 @@ export default async function handler(req, res) {
     const user = JSON.parse(req.body);
     if (req.method === 'POST') {
     }
-    const data = await prisma.users.create({
-      data: {
-        name: user.name,
-        email: user.email,
-      },
-    });
-    return res.status(200).json(data);
+    if (user.name === '') {
+      return res.status(500).json('required field must be filled');
+    } else {
+      const data = await prisma.users.create({
+        data: {
+          name: user.name,
+          email: user.email,
+        },
+      });
+      return res.status(200).json(data);
+    }
   } catch (err) {
     return res.status(500).json(err);
   }

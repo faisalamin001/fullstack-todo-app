@@ -1,3 +1,7 @@
+.Toastify__toast-theme--dark {
+  background: rgba(0, 0, 0, 0.465) !important;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -32,6 +36,10 @@ body {
 ::placeholder {
   color: rgba(255, 255, 255, 0.651);
 }
+.creatediv input:hover {
+  background: rgba(0, 0, 0, 0.631);
+}
+
 .creatediv button {
   padding: 10px;
   border: none;
@@ -75,4 +83,25 @@ body {
 .task .del:hover {
   color: red;
   cursor: pointer;
+}
+
+.signin {
+  padding: 10px;
+  text-align: center;
+}
+
+.signin button {
+  background: rgba(0, 0, 0, 0.345);
+  padding: 20px 40px;
+  border: none;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 7px;
+}
+.signin button:hover {
+  background: black;
+}
+.signin img {
+  border-radius: 50%;
 }

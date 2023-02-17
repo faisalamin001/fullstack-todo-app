@@ -1,35 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from 'react-query';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CreateTask({ name, setname, btnName, setBtnName, taskId }) {
-  const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const updateUserHandler = (e) => {
-    e.preventDefault();
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/updateUser/${taskId}`, {
-      method: 'POST',
-      body: JSON.stringify({ name }),
-    })
-      .then((res) => res.json())
-      .then((result) => console.log(result));
-    setname('');
-  };
-
-  const createUserHandler = async (e) => {
-    e.preventDefault();
-    console.log('create handler');
-    const data = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/createUser`,
+  const updateRequest = async () => {
+    return fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/updateUser/${taskId}`,
       {
         method: 'POST',
-        body: JSON.stringify({
-          name,
-          email: 'example@gmail.com',
-        }),
+        body: JSON.stringify({ name }),
       }
-    );
-    console.log(data.json());
-    router.reload(window.location.pathname);
+    ).then((res) => res.json());
+  };
+
+  const updateTask = useMutation(() => updateRequest(), {
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
+
+  const createTask = async () => {
+    return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/createUser`, {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        email: 'example@gmail.com',
+      }),
+    });
+  };
+  const createUser = useMutation(() => createTask(), {
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
+
+  const updateCreateHandler = (e) => {
+    e.preventDefault();
+    if (name === '') {
+      return toast.warn('Required field must be filled!', {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: 'dark',
+        closeButton: false,
+      });
+    }
+    btnName === 'Add'
+      ? (createUser.mutate(),
+        toast.success('Creating Task... ', {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: 'dark',
+          closeButton: false,
+        }))
+      : (updateTask.mutate(),
+        toast.success('Updating Task... ', {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          theme: 'dark',
+          closeButton: false,
+        }));
+    setname('');
   };
 
   if (name === '') {
@@ -46,13 +73,9 @@ function CreateTask({ name, setname, btnName, setBtnName, taskId }) {
           value={name}
           onChange={(e) => setname(e.target.value)}
         />{' '}
-        <button
-          onClick={btnName === 'Add' ? createUserHandler : updateUserHandler}
-        >
-          {' '}
-          {btnName}{' '}
-        </button>
+        <button onClick={updateCreateHandler}> {btnName} </button>
       </form>
+      <ToastContainer />
     </div>
   );
 }
