@@ -52,11 +52,16 @@ body {
 .creatediv button:hover {
   background: black;
 }
-
+.showdiv {
+  width: 100vw;
+  padding: 10px;
+  text-align: center;
+}
 .task {
   display: flex !important;
   justify-content: space-between;
-  width: 30%;
+  align-items: center;
+  width: 400px;
   padding: 20px;
   text-align: left;
   border-radius: 7px;
